@@ -1,40 +1,70 @@
 import React from "react";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, BarChart, Bar } from "recharts";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
+import "./Analytics.css";
 
-export default function Analytics() {
-  const data = [
-    { name: "Jan", flagged: 50, banned: 10 },
-    { name: "Feb", flagged: 40, banned: 8 },
-    { name: "Mar", flagged: 60, banned: 15 },
-    { name: "Apr", flagged: 80, banned: 20 },
-    { name: "May", flagged: 90, banned: 25 },
-  ];
+const userGrowthData = [
+    { month: "Jan", users: 500 },
+    { month: "Feb", users: 900 },
+    { month: "Mar", users: 1500 },
+    { month: "Apr", users: 2000 },
+    { month: "May", users: 2500 },
+    { month: "Jun", users: 3000 },
+];
 
-  return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold mb-5">Analytics Dashboard</h1>
-      <div className="grid grid-cols-2 gap-5">
-        <div className="p-5 bg-white dark:bg-gray-700 shadow rounded-lg">
-          <h3 className="text-lg font-medium mb-3">Flagged Content Over Time</h3>
-          <LineChart width={500} height={300} data={data}>
-            <Line type="monotone" dataKey="flagged" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-          </LineChart>
+const flaggedContentData = [
+    { month: "Jan", flagged: 50 },
+    { month: "Feb", flagged: 120 },
+    { month: "Mar", flagged: 200 },
+    { month: "Apr", flagged: 260 },
+    { month: "May", flagged: 310 },
+    { month: "Jun", flagged: 380 },
+];
+
+const Analytics = () => {
+    return (
+        <div className="analytics-container">
+           
+
+            {/* Main Content */}
+            <div className="main-content-area">
+                <div className="analytics-box">
+                    <h2 className="analytics-title">📊 Analytics Overview</h2>
+
+                    {/* Charts Section */}
+                    <div className="chart-section">
+                        {/* User Growth Chart */}
+                        <div className="chart-container">
+                            <h3 className="chart-title">User Growth</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <LineChart data={userGrowthData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="month" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Line type="monotone" dataKey="users" stroke="#007bff" strokeWidth={3} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+
+                        {/* Flagged Content Chart */}
+                        <div className="chart-container">
+                            <h3 className="chart-title">Flagged Content</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={flaggedContentData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="month" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Bar dataKey="flagged" fill="#ff4d4d" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div className="p-5 bg-white dark:bg-gray-700 shadow rounded-lg">
-          <h3 className="text-lg font-medium mb-3">Banned Users Over Time</h3>
-          <BarChart width={500} height={300} data={data}>
-            <Bar dataKey="banned" fill="#82ca9d" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-          </BarChart>
-        </div>
-      </div>
-    </div>
-  );
-}
+    );
+};
+
+export default Analytics;
+
